@@ -12,7 +12,7 @@ store.init();
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
       <button v-if="store.user !== null" @click="store.logout">Logout</button>
-      <div v-if="store.user !== null">{{ store.user?.email }}</div>
+      <div v-if="store.user !== null">{{ store.user?.$id }}</div>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
