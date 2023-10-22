@@ -6,7 +6,7 @@ const store = useUserStore();
 
 <template>
   <main>
-    <div v-if="store.user === null">U r unauthorized, guest User</div>
+    <div v-if="store.user === null">U r unauthorized, User</div>
     <TheWelcome />
   </main>
 </template>
