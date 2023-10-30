@@ -22,7 +22,7 @@ export const useUserStore = defineStore('user', {
         await account.create(ID.unique(), email, password);
         await this.login(email, password);
         this.loadingSession = false;
-        this.router.push('/');
+        //this.router.push('/');
       } catch (error) {
         console.log(error.message);
         this.loadingSession = false;
@@ -34,7 +34,14 @@ export const useUserStore = defineStore('user', {
         await account.createEmailSession(email, password);
         this.loadingSession = false;
         this.user = await account.get();
-        await this.router.push('/'); // Redirect to home page
+        if (this.user !== null) {
+          if (this.user.emailVerification === false) {
+            await this.router.push('/about');
+          } else {
+            await this.router.push('/');
+          }
+        }
+        // Redirect to home page
       } catch (error) {
         this.loadingSession = false;
         console.log(error.message); // Redirect

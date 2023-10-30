@@ -1,8 +1,16 @@
 <script setup>
-import { useUserStore } from "./stores/user.js";
-const store = useUserStore();
-store.init();
-
+import { useUserStore } from "./stores/user";
+import { useBookStore } from "./stores/book";
+const userStore = useUserStore();
+const bookStore = useBookStore();
+const router = useRouter();
+onMounted(async () => {
+  await userStore.init();
+  if (userStore.user !== null) {
+    bookStore.init();
+    router.push('/about');
+  }
+});
 </script>
 
 <template>
@@ -11,13 +19,16 @@ store.init();
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
-      <button v-if="store.user !== null" @click="store.logout">Logout</button>
-      <div v-if="store.user !== null">{{ store.user?.$id }}</div>
+      <button v-if="userStore.user !== null" @click="userStore.logout">Logout</button>
+      <div v-if="userStore.user !== null">
+        <span>{{ userStore.user?.emailVerification ?
+          `Admin mode, ${userStore.user.email}` : `Guest mode, ${userStore.user.email}` }} </span>
+      </div>
 
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/" v-if="userStore.user && userStore.user.$id === bookStore.books[0]?.userId">Home</RouterLink>
+        <RouterLink to="/about">Books</RouterLink>
+        <RouterLink to="/login" v-if="!userStore.user">Login</RouterLink>
       </nav>
     </div>
   </header>
