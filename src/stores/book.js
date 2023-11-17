@@ -1,7 +1,8 @@
 import { ID, Query } from 'appwrite';
-import { databases } from '../appwrite';
+import { databases, storage } from '../appwrite';
 const dbID = import.meta.env.VITE_APPWRITE_DB_ID; // Replace with your database ID
 const collectionId = import.meta.env.VITE_APPWRITE_COLLECTION_ID; // Replace with your collection ID
+const bucketId = import.meta.env.VITE_APPWRITE_BUCKET_ID;
 
 export const useBookStore = defineStore('book', {
   state: () => ({
@@ -36,6 +37,22 @@ export const useBookStore = defineStore('book', {
       await databases.deleteDocument(dbID, collectionId, id);
       this.books = this.books.filter((book) => book.$id !== id);
       await this.init(); // Refetch books to ensure we have 10 items
+    },
+    async addImage(fileName, file) {
+      const promise = storage.createFile(
+        bucketId,
+        fileName,
+        file
+        //document.getElementById('uploader').files[0]
+      );
+      promise.then(
+        function (response) {
+          console.log(response); // Success
+        },
+        function (error) {
+          console.log(error); // Failure
+        }
+      );
     }
   }
 });

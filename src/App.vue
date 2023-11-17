@@ -4,6 +4,7 @@ import { useBookStore } from "./stores/book";
 const userStore = useUserStore();
 const bookStore = useBookStore();
 const router = useRouter();
+const route = useRoute();
 onMounted(async () => {
   await userStore.init();
   if (userStore.user !== null) {
@@ -28,7 +29,8 @@ onMounted(async () => {
       <nav>
         <RouterLink to="/" v-if="userStore.user && userStore.user.$id === bookStore.books[0]?.userId">Home</RouterLink>
         <RouterLink to="/about">Books</RouterLink>
-        <RouterLink to="/login" v-if="!userStore.user">Login</RouterLink>
+        <router-link to="/upload">Upload</router-link>
+        <RouterLink to="/login" v-if="!userStore.user && route.fullPath !== '/login'">Login</RouterLink>
       </nav>
     </div>
   </header>

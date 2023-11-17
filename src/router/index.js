@@ -36,6 +36,12 @@ const router = createRouter({
       path: '/book/:id',
       name: 'singleBook',
       component: () => import('../views/SingleBook.vue')
+    },
+    {
+      path: '/upload',
+      name: 'upload',
+      beforeEnter: requireAuth,
+      component: () => import('../components/Uplodad.vue')
     }
   ]
 });

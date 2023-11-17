@@ -3,8 +3,6 @@ import { useUserStore } from "../stores/user";
 import { useBookStore } from "../stores/book";
 const bookStore = useBookStore();
 const userStore = useUserStore();
-
-
 onMounted(() => {
   bookStore.init();
 });

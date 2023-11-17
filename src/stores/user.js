@@ -14,6 +14,7 @@ export const useUserStore = defineStore('user', {
         this.user = await account.get();
       } catch (e) {
         this.user = null;
+        console.log('Error', e.message);
       }
     },
     async register(email, password) {
